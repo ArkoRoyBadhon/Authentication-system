@@ -33,12 +33,13 @@ const Register = () => {
                 alert('SignUp Successfully!')
                 const info = {
                     displayName: name,
-                    phone: phone,
+                    phoneNumber: phone,
                     address: address
                 }
                 updateUser(info)
                     .then(result => {
-                        console.log(result);
+                        // console.log(result);
+                        saveUser(saveinfo)
                         alert('user saved')
                     })
                     .catch(err => console.error(err))
@@ -49,6 +50,24 @@ const Register = () => {
             .catch(err => {
                 console.error(err);
             })
+    }
+
+
+    const saveUser = (saveinfo) => {
+        console.log('inside saaveUser', saveinfo);
+        fetch(`http://localhost:5000/userinfo`, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(saveinfo)
+        })
+            .then(res => res.json())
+            .then(data => {
+                // console.log(data)
+                // setCreatedUserEmail(saveinfo.email);
+            })
+            .catch(err => console.error(err.message))
     }
 
 
