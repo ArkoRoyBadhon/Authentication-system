@@ -4,7 +4,7 @@ import { AuthContext } from '../../Context/AuthProvider';
 
 const Register = () => {
 
-    const { signUpWithEmail, updateUser, user } = useContext(AuthContext)
+    const { signUpWithEmail, updateUser, user, logOut } = useContext(AuthContext)
     const navigate = useNavigate();
 
     const handleSignUpForm = (event) => {
@@ -45,6 +45,11 @@ const Register = () => {
                     .catch(err => console.error(err))
 
                 form.reset()
+                logOut()
+                    .then(() => {
+                        navigate('/login')
+                    })
+                    .catch(err => console.error(err))
                 // navigate('/login')
             })
             .catch(err => {

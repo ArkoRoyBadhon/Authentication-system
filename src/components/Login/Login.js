@@ -1,5 +1,5 @@
-import React, { useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../Context/AuthProvider';
 // import loginImg from '../../assets/'
 
@@ -7,6 +7,9 @@ import { AuthContext } from '../../Context/AuthProvider';
 const Login = () => {
     const { user: CurrentUser, LogIn, passwordReseting } = useContext(AuthContext);
     const [forgotEmail, setForgotEmail] = useState('');
+
+    const navigate = useNavigate()
+
 
     const handleLoginForm = (event) => {
 
@@ -28,6 +31,8 @@ const Login = () => {
                 const user = result.user
                 alert('Login Successfully!')
 
+                navigate('/');
+
             })
             .catch(err => alert('Login Failed! Please try again or reset your password'))
     }
@@ -44,7 +49,8 @@ const Login = () => {
         }
     }
 
-    console.log(forgotEmail);
+
+    // console.log(forgotEmail);
 
     return (
         <div className="hero min-h-screen bg-base-200">
