@@ -4,7 +4,7 @@ import { AuthContext } from '../../Context/AuthProvider';
 
 const Register = () => {
 
-    const { signUpWithEmail } = useContext(AuthContext)
+    const { signUpWithEmail, updateUser, user } = useContext(AuthContext)
     const navigate = useNavigate();
 
     const handleSignUpForm = (event) => {
@@ -14,12 +14,14 @@ const Register = () => {
         const name = form.name.value;
         const phone = form.phone.value;
         const email = form.email.value;
+        const address = form.address.value;
         const password = form.password.value;
 
         const saveinfo = {
             name,
             phone,
             email,
+            address,
             password
         }
 
@@ -29,9 +31,20 @@ const Register = () => {
             .then(res => {
                 const user = res.user
                 alert('SignUp Successfully!')
+                const info = {
+                    displayName: name,
+                    phone: phone,
+                    address: address
+                }
+                updateUser(info)
+                    .then(result => {
+                        console.log(result);
+                        alert('user saved')
+                    })
+                    .catch(err => console.error(err))
 
                 form.reset()
-                navigate('/login')
+                // navigate('/login')
             })
             .catch(err => {
                 console.error(err);
@@ -85,6 +98,9 @@ const Register = () => {
                             <button className="btn btn-primary">register</button>
                         </div>
                     </form>
+                    {
+                        user?.id && <div>{user.displayName}</div>
+                    }
                 </div>
             </div>
         </div>
