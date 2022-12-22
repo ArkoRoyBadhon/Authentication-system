@@ -1,6 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../Context/AuthProvider';
 
 const Register = () => {
+
+    const { signUpWithEmail } = useContext(AuthContext)
+    const navigate = useNavigate();
 
     const handleSignUpForm = (event) => {
         event.preventDefault();
@@ -19,7 +24,18 @@ const Register = () => {
         }
 
         console.log(saveinfo);
-       
+
+        signUpWithEmail(email, password)
+            .then(res => {
+                const user = res.user
+                alert('SignUp Successfully!')
+
+                form.reset()
+                navigate('/login')
+            })
+            .catch(err => {
+                console.error(err);
+            })
     }
 
 
@@ -62,7 +78,7 @@ const Register = () => {
                             </label>
                             <input type="password" name='password' placeholder="Password" className="input input-bordered" />
                             <label className="label">
-                                <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
+                                <Link to="/" className="label-text-alt link link-hover">Forgot password?</Link>
                             </label>
                         </div>
                         <div className="form-control mt-6">
