@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState } from 'react';
-import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, updatePassword, updateProfile } from 'firebase/auth'
+import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, updatePassword, updateProfile } from 'firebase/auth'
 import app from '../Firebase/firebase.config';
 
 
@@ -31,6 +31,10 @@ const AuthProvider = ({children}) => {
         return updatePassword(user, newPassword);
     }
 
+    const UserVerifyFunction = () => {
+        return sendEmailVerification(auth.currentUser);
+    }
+
     const logOut = () => {
         return signOut(auth);
     }
@@ -43,7 +47,7 @@ const AuthProvider = ({children}) => {
         logOut,
         passwordReseting,
         AllnewUpdatePass,
-        
+        UserVerifyFunction,
 
     }
 

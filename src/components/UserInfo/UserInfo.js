@@ -12,14 +12,14 @@ const UserInfo = () => {
         event.preventDefault();
         const pass = event.target.password.value;
         AllnewUpdatePass(pass)
-        .then(()=> {
-            alert('password changed')
-        })
-        .catch(error => alert('something wrong'))
+            .then(() => {
+                alert('password changed')
+            })
+            .catch(error => alert('something wrong'))
     }
 
     useEffect(() => {
-        fetch(`http://localhost:5000/userinfo/${user?.email}`)
+        fetch(`https://server-gilt-iota.vercel.app/userinfo/${user?.email}`)
             .then(res => res.json())
             .then(data => setUserData(data))
     }, [user])
@@ -36,18 +36,20 @@ const UserInfo = () => {
                 </div>)
             }
 
-            <form onSubmit={handleResetPassword} className="mt-10 shadow-lg w-3/5 mx-auto p-10 rounded-lg">
-                <h2 className="text-2xl">Password Update Form</h2>
-                <div className="form-control">
-                    <label className="label">
-                        <span className="label-text">New Password</span>
-                    </label>
-                    <input type="password" name='password' placeholder="enter a new password" className="input input-bordered" />
-                </div>
-                <div className="form-control mt-6">
-                    <button className="btn btn-primary">change</button>
-                </div>
-            </form>
+            {
+                user && <form onSubmit={handleResetPassword} className="mt-10 shadow-lg w-3/5 mx-auto p-10 rounded-lg">
+                    <h2 className="text-2xl">Password Update Form</h2>
+                    <div className="form-control">
+                        <label className="label">
+                            <span className="label-text">New Password</span>
+                        </label>
+                        <input type="password" name='password' placeholder="enter a new password" className="input input-bordered" />
+                    </div>
+                    <div className="form-control mt-6">
+                        <button className="btn btn-primary">change</button>
+                    </div>
+                </form>
+            }
         </div>
     );
 };

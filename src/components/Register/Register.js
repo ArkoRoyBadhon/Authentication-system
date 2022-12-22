@@ -4,7 +4,7 @@ import { AuthContext } from '../../Context/AuthProvider';
 
 const Register = () => {
 
-    const { signUpWithEmail, updateUser, user, logOut } = useContext(AuthContext)
+    const { signUpWithEmail, updateUser, user, logOut, UserVerifyFunction } = useContext(AuthContext)
     const navigate = useNavigate();
 
     const handleSignUpForm = (event) => {
@@ -40,11 +40,17 @@ const Register = () => {
                     .then(result => {
                         // console.log(result);
                         saveUser(saveinfo)
-                        alert('user saved')
+                        // alert('user saved')
                     })
                     .catch(err => console.error(err))
 
                 form.reset()
+
+                UserVerifyFunction()
+                .then(()=> {
+                    alert('an email verification mail sent to your email')
+                })
+                .catch(error => alert('something wrong'))
                 logOut()
                     .then(() => {
                         navigate('/login')
@@ -60,7 +66,7 @@ const Register = () => {
 
     const saveUser = (saveinfo) => {
         console.log('inside saaveUser', saveinfo);
-        fetch(`http://localhost:5000/userinfo`, {
+        fetch(`https://server-gilt-iota.vercel.app/userinfo`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
