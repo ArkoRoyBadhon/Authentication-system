@@ -1,11 +1,12 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../Context/AuthProvider';
 // import loginImg from '../../assets/'
 
 
 const Login = () => {
-    const { user: CurrentUser, LogIn } = useContext(AuthContext);
+    const { user: CurrentUser, LogIn, passwordReseting } = useContext(AuthContext);
+    const [forgotEmail, setForgotEmail] = useState('');
 
     const handleLoginForm = (event) => {
 
@@ -13,6 +14,8 @@ const Login = () => {
         const form = event.target;
         const email = form.email.value;
         const password = form.password.value;
+
+        setForgotEmail(email)
 
         const info = {
             email,
@@ -26,9 +29,22 @@ const Login = () => {
                 alert('Login Successfully!')
 
             })
-            .catch(err => console.error(err))
-
+            .catch(err => alert('Login Failed! Please try again or reset your password'))
     }
+
+    const handleResetPassword = () => {
+        if (forgotEmail) {
+            passwordReseting(forgotEmail)
+            .then(()=> {
+                alert('password reset link send to your mail')
+            })
+            .catch(err => console.error(err))
+        } else {
+            alert('Try to Login First')
+        }
+    }
+
+    console.log(forgotEmail);
 
     return (
         <div className="hero min-h-screen bg-base-200">
@@ -51,12 +67,15 @@ const Login = () => {
                             </label>
                             <input type="password" name='password' placeholder="password" className="input input-bordered" />
                             <label className="label">
-                                <Link href="#" className="label-text-alt link link-hover">Forgot password?</Link>
+                                <Link onClick={handleResetPassword} className="label-text-alt link link-hover">Forgot password?</Link>
                             </label>
                         </div>
                         <div className="form-control mt-6">
                             <button className="btn btn-primary">Login</button>
                         </div>
+                        <label className="label">
+                            <Link to='/register' className="label-text-alt link link-hover">New to website? Please register!</Link>
+                        </label>
                     </form>
                 </div>
             </div>
